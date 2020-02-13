@@ -7,7 +7,7 @@
 # <https://github.com/KFERMercer/OpenWrt-CI>
 # 
 
-name: OpenWrt-CI-GL
+name: OpenWrt-CI-ACRH17
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
         with:
           repository: coolsnowwolf/lede
           path: lean
-
+  
       - name: Space cleanup
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -68,7 +68,7 @@ jobs:
 
       - name: Generate configuration file
         run: |
-          cp ../deconfig/gl.config .config
+          cp ../deconfig/arch17.config .config
           make defconfig
 
       - name: Make download
