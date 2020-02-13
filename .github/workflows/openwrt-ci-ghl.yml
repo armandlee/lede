@@ -59,8 +59,10 @@ jobs:
 
           df -h
 
-          cd lean
-
+      - name: Move OpenWRT
+        run: |
+          mv -f lean/* .
+  
       - name: Update feeds
         run: |
           ./scripts/feeds update -a
@@ -68,7 +70,7 @@ jobs:
 
       - name: Generate configuration file
         run: |
-          cp ../deconfig/ghl.config .config
+          cp ./deconfig/ghl.config .config
           make defconfig
 
       - name: Make download
