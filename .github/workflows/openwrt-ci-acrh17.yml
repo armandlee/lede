@@ -26,12 +26,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@master
-        with:
-          ref: master
+        uses: actions/checkout@v2
 
       - name: Checkout lean repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
         with:
           repository: coolsnowwolf/lede
           path: lean
@@ -65,7 +63,7 @@ jobs:
   
       - name: Update feeds
         run: |
-          sed -i 's/#src-git/src-git/g' ./feeds.conf.default
+          sed -i 's/\"#src-git\"/\"src-git\"/g' ./feeds.conf.default
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
