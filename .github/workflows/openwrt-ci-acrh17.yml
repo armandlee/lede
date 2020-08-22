@@ -25,14 +25,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: Checkout lean repo
         uses: actions/checkout@v2
         with:
           repository: coolsnowwolf/lede
-          path: lean
+
+      - name: Checkout deconfig repo
+        uses: actions/checkout@v2
+        with:
+          path: deconfig
   
       - name: Space cleanup
         env:
@@ -57,19 +58,15 @@ jobs:
 
           df -h
 
-      - name: Move OpenWRT
-        run: |
-          mv -f lean/* .
-  
       - name: Update feeds
         run: |
-          sed -i 's/#src-git/src-git/g' ./feeds.conf.default
+          sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
       - name: Generate configuration file
         run: |
-          cp ./deconfig/acrh17.config .config
+          cp ./deconfig/deconfig/acrh17.config .config
           make defconfig
 
       - name: Make download
@@ -93,7 +90,7 @@ jobs:
         run: find ./bin/targets/ -type d -name "packages" | xargs rm -rf {}
 
       - name: Upload artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: OpenWrt firmware ACRH17
           path: ./bin/targets/
